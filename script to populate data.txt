@@ -1,0 +1,106 @@
+-- Populate lookup tables first
+-- Languages
+INSERT INTO book_language (language_name) VALUES 
+('English'), ('Spanish'), ('French'), ('German');
+
+-- Publishers
+INSERT INTO publisher (publisher_name) VALUES 
+('Little, Brown and Company'), 
+('Grand Central Publishing'), 
+('Random House'), 
+('HarperCollins');
+
+-- Authors
+INSERT INTO author (full_name) VALUES 
+('James Patterson'), 
+('Maxine Paetro'), 
+('Michael Ledwidge'), 
+('David Ellis'), 
+('Bill Clinton');
+
+-- Countries
+INSERT INTO country (country_name) VALUES 
+('United States'), ('Canada'), ('United Kingdom'), ('Australia');
+
+-- Order Status
+INSERT INTO order_status (status_name) VALUES 
+('Pending'), ('Shipped'), ('Delivered'), ('Cancelled');
+
+-- Address Status
+INSERT INTO address_status (status_name) VALUES 
+('Billing'), ('Shipping'), ('Both');
+
+-- Shipping Methods
+INSERT INTO shipping_method (method_name, cost) VALUES 
+('Standard', 5.99), 
+('Express', 12.99), 
+('Next Day', 24.99);
+
+
+--Books and Author Links
+-- Books
+INSERT INTO book (title, publication_year, language_id, publisher_id, price, stock_quantity) VALUES
+('Along Came a Spider', 1993, 1, 1, 14.99, 120),
+('Kiss the Girls', 1995, 1, 1, 15.99, 110),
+('Invisible', 2014, 1, 2, 18.99, 90),
+('The President Is Missing', 2018, 1, 4, 22.50, 75),
+('NYPD Red', 2012, 1, 2, 17.99, 80),
+('Private', 2010, 1, 2, 16.99, 85);
+
+-- Book-Author (many-to-many)
+INSERT INTO book_author (book_id, author_id) VALUES
+(1, 1),
+(2, 1),
+(3, 1), (3, 3),
+(4, 1), (4, 5),
+(5, 1), (5, 3),
+(6, 1), (6, 2);
+
+
+-- Customers and Addresses
+-- Customers
+INSERT INTO customer (full_name, email, phone) VALUES
+('Alice Johnson', 'alice@example.com', '123-456-7890'),
+('Bob Smith', 'bob@example.com', '987-654-3210'),
+('Catherine West', 'cwest@example.com', '555-234-5678'),
+('Daniel Rivers', 'danielr@example.com', '444-111-2222');
+
+-- Addresses
+INSERT INTO address (street, city, postal_code, country_id) VALUES
+('123 Elm St', 'New York', '10001', 1),
+('456 Oak Ave', 'Toronto', 'M5H 2N2', 2),
+('789 Pine Rd', 'London', 'SW1A 1AA', 3),
+('321 Maple Blvd', 'Sydney', '2000', 4);
+
+-- Customer Addresses
+INSERT INTO customer_address (customer_id, address_id, address_status_id) VALUES
+(1, 1, 3),
+(2, 2, 3),
+(3, 3, 3),
+(4, 4, 3);
+
+
+-- Orders and Order Details
+-- Orders
+INSERT INTO cust_order (customer_id, order_date, shipping_method_id, order_status_id) VALUES
+(1, '2025-04-10', 1, 2),
+(2, '2025-04-12', 2, 1),
+(3, '2025-04-15', 3, 3),
+(4, '2025-04-16', 1, 4);
+
+-- Order Lines
+INSERT INTO order_line (order_id, book_id, quantity, price) VALUES
+(1, 1, 1, 14.99),
+(1, 2, 1, 15.99),
+(2, 3, 2, 18.99),
+(3, 4, 1, 22.50),
+(4, 5, 1, 17.99);
+
+-- Order History
+INSERT INTO order_history (order_id, status_change_date, old_status_id, new_status_id) VALUES
+(1, '2025-04-11 10:00:00', 1, 2),
+(2, '2025-04-13 09:30:00', 1, 1),
+(3, '2025-04-16 14:00:00', 2, 3),
+(4, '2025-04-17 08:15:00', 2, 4);
+
+-- 

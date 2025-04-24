@@ -1,0 +1,39 @@
+-- step 4 for Set up user groups and roles to control access to the database
+-- here I create roles
+-- CREATE ROLE 'admin_role';
+-- CREATE ROLE 'inventory_manager';
+-- CREATE ROLE 'sales_clerk';
+-- CREATE ROLE 'viewer';
+-- here now, I Assign Privileges to Roles
+-- Admin role gets everything
+GRANT ALL PRIVILEGES ON myself_jamespatterson_bookstore.* TO 'admin_role';
+
+-- Inventory manager: books and stock only
+GRANT SELECT, INSERT, UPDATE ON myself_jamespatterson_bookstore.book TO 'inventory_manager';
+GRANT SELECT, INSERT, UPDATE ON myself_jamespatterson_bookstore.author TO 'inventory_manager';
+GRANT SELECT, INSERT, UPDATE ON myself_jamespatterson_bookstore.book_author TO 'inventory_manager';
+
+-- Sales clerk: access to orders and customers
+GRANT SELECT, INSERT, UPDATE ON myself_jamespatterson_bookstore.customer TO 'sales_clerk';
+GRANT SELECT, INSERT, UPDATE ON myself_jamespatterson_bookstore.cust_order TO 'sales_clerk';
+GRANT SELECT, INSERT, UPDATE ON myself_jamespatterson_bookstore.order_line TO 'sales_clerk';
+
+-- Viewer: read-only on everything
+GRANT SELECT ON myself_jamespatterson_bookstore.* TO 'viewer';
+
+-- Create Users and Assign Roles
+-- Create users
+CREATE USER 'alice'@'localhost' IDENTIFIED BY '1234';
+CREATE USER 'bob'@'localhost' IDENTIFIED BY '1234';
+CREATE USER 'carol'@'localhost' IDENTIFIED BY '1234';
+
+-- Assign roles
+GRANT 'admin_role' TO 'alice'@'localhost';
+GRANT 'inventory_manager' TO 'bob'@'localhost';
+GRANT 'sales_clerk' TO 'carol'@'localhost';
+
+-- Activate the roles
+SET DEFAULT ROLE ALL TO 'alice'@'localhost';
+SET DEFAULT ROLE 'inventory_manager' TO 'bob'@'localhost';
+SET DEFAULT ROLE 'sales_clerk' TO 'carol'@'localhost';
+

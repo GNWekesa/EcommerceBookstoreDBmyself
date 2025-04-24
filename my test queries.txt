@@ -1,0 +1,76 @@
+
+-- 1. List all books in inventory
+SELECT 
+    b.book_id, 
+    b.title, 
+    b.publication_year, 
+    bl.language_name, 
+    p.publisher_name, 
+    b.price, 
+    b.stock_quantity
+FROM book b
+JOIN book_language bl ON b.language_id = bl.language_id
+JOIN publisher p ON b.publisher_id = p.publisher_id;
+
+-- 2. Show all authors and the books they’ve written
+SELECT 
+    a.full_name AS author,
+    b.title AS book_title
+FROM author a
+JOIN book_author ba ON a.author_id = ba.author_id
+JOIN book b ON ba.book_id = b.book_id
+ORDER BY a.full_name;
+
+-- 3. Check stock levels for all books (low stock warning)
+SELECT 
+    title, 
+    stock_quantity 
+FROM book 
+WHERE stock_quantity < 10;
+
+-- 4. Get all orders placed and their statuses
+SELECT 
+    o.order_id, 
+    c.full_name AS customer, 
+    o.order_date, 
+    os.status_name AS order_status, 
+    sm.method_name AS shipping_method
+FROM cust_order o
+JOIN customer c ON o.customer_id = c.customer_id
+JOIN order_status os ON o.order_status_id = os.order_status_id
+JOIN shipping_method sm ON o.shipping_method_id = sm.shipping_method_id
+ORDER BY o.order_date DESC;
+
+-- 5. Analyze total revenue by book
+SELECT 
+    b.title, 
+    SUM(ol.quantity) AS total_sold, 
+    SUM(ol.quantity * ol.price) AS total_revenue
+FROM order_line ol
+JOIN book b ON ol.book_id = b.book_id
+GROUP BY b.title
+ORDER BY total_revenue DESC;
+
+-- 6. Top 5 best-selling books
+SELECT 
+    b.title, 
+    SUM(ol.quantity) AS copies_sold
+FROM order_line ol
+JOIN book b ON ol.book_id = b.book_id
+GROUP BY b.book_id
+ORDER BY copies_sold DESC
+LIMIT 5;
+
+-- 7. Detailed invoice for a specific order (e.g., Order ID = 1)
+SELECT 
+    co.order_id,
+    c.full_name AS customer,
+    b.title,
+    ol.quantity,
+    ol.price,
+    (ol.quantity * ol.price) AS total
+FROM cust_order co
+JOIN customer c ON co.customer_id = c.customer_id
+JOIN order_line ol ON co.order_id = ol.order_id
+JOIN book b ON ol.book_id = b.book_id
+WHERE co.order_id = 1;

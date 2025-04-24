@@ -1,0 +1,10 @@
+EcommerceBookstoreDB/
+├── bookstoreecommerceDB.sql
+├── documentation.txt
+└── myscript.txt
+
+Group members:
+1. Gabriella Nekesa Wekesa
+2.
+3.
+4. 

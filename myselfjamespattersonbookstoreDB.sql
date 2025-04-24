@@ -1,5 +1,5 @@
--- CREATE DATABASE james_patterson_bookstore;
--- USE james_patterson_bookstore;
+-- CREATE DATABASE myself_jamespatterson_bookstore;
+-- USE myself_jamespatterson_bookstore;
 -- CREATE TABLE book (
 --     book_id INT AUTO_INCREMENT PRIMARY KEY,
 --     title VARCHAR(255) NOT NULL,

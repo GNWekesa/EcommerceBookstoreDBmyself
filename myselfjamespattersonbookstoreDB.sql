@@ -1,3 +1,4 @@
+--
 -- CREATE DATABASE myself_jamespatterson_bookstore;
 -- USE myself_jamespatterson_bookstore;
 -- CREATE TABLE book (
